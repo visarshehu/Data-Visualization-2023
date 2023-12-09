@@ -52,12 +52,24 @@ const drawArc = (data) => {
       })
       .attr("fill", "#6EB7C2");
 
+
+      innerChart
+      .append("path")
+        .attr("d", () => {
+          return arcGenerator({
+            startAngle: angleDaysWithPrecipitations_rad,
+            endAngle: Math.PI
+          });
+        })
+        .attr("fill", "#FF0000");
+
+
   // Append arc for other days
   innerChart
     .append("path")
       .attr("d", () => {
         return arcGenerator({
-          startAngle: angleDaysWithPrecipitations_rad,
+          startAngle: Math.PI,
           endAngle: 2 * Math.PI
         });
       })
@@ -81,4 +93,31 @@ const drawArc = (data) => {
       .attr("fill", "white")
       .style("font-weight", 500);
 
+  const centroid1 = arcGenerator
+    .startAngle(angleDaysWithPrecipitations_rad)
+    .endAngle(Math.PI)
+    .centroid();
+  innerChart
+    .append("text")
+      .text(d => d3.format(".0%")(3/100))
+      .attr("x", centroid1[0])
+      .attr("y", centroid1[1])
+      .attr("text-anchor", "middle")
+      .attr("dominant-baseline", "middle")
+      .attr("fill", "white")
+      .style("font-weight", 500);
+
+      const centroid2 = arcGenerator
+      .startAngle(Math.PI)
+      .endAngle(Math.PI * 2)
+      .centroid();
+    innerChart
+      .append("text")
+        .text(d => d3.format(".0%")(50/100))
+        .attr("x", centroid2[0])
+        .attr("y", centroid2[1])
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .attr("fill", "white")
+        .style("font-weight", 500);
 };
